@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Profil utilisateur</h1>
+</form>
+
+
+    {{ form_errors(userProfilForm) }}
+
+    {{ form_start(userProfilForm) }}
+        {{ form_row(userProfilForm.firstname, {'value': firstname}) }}
+        {{ form_row(userProfilForm.lastname, {'value': lastname}) }}
+
+        <button type="submit" class="btn">Mettre à jour</button>
+    {{ form_end(userProfilForm) }}
+{% endblock %}

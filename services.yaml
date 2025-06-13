@@ -1,7 +1,0 @@
-services:
-    App\EventListener\CreateUserListener:
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-    App\EventListener\LocaleListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }

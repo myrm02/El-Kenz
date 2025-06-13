@@ -21,16 +21,6 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        // if(explode("@", $lastUsername)[1] === 'admin.com') {
-        //     // Redirect admin users to the admin dashboard
-        //     return $this->redirectToRoute('admin_home');
-        // } else {
-        //     return $this->render('security/login.html.twig', [
-        //     'last_username' => $lastUsername,
-        //     'error' => $error,
-        //     ]);
-        // }
-
         $users = $entityManager->getRepository(User::class)->findAll();
 
         $expectedRole = 'ROLE_ADMIN';
@@ -43,17 +33,17 @@ class SecurityController extends AbstractController
                     if (in_array($expectedRole, $user->getRoles(), true)) {
 
                         print_r("Found user with expected role: " . $user->getEmail() . "\n");
-                        return $this->render('admin/dashboard.html.twig', [
-                            'last_username' => $lastUsername,
+                        return $this->redirectToRoute('app_admin', [
                             'error' => $error,
+                            'last_username' => $lastUsername,
                         ]);
 
                     } else {
 
                         print_r("It is a lambda user: " . $user->getEmail() . "\n");
-                        return $this->render('security/login.html.twig', [
-                            'last_username' => $lastUsername,
+                        return $this->redirectToRoute('app_user', [
                             'error' => $error,
+                            'last_username' => $lastUsername,
                         ]);
                     }
 
@@ -72,13 +62,5 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
-
-    #[Route('/admin/home', name: 'admin_home')]
-    public function adminHome(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        return $this->render('admin/dashboard.html.twig');
     }
 }

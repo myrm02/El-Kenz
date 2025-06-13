@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div style="padding: 1rem; max-width: 1200px; margin: auto;">
+    <h2>Produits</h2>
+
+    {% if app.user %}
+        <p>Bienvenue, {{ app.user.userIdentifier }}!</p>
+    {% else %}
+        <p>Veuillez vous <a href="{{ path('app_login') }}">connecter</a> pour voir les produits.</p>
+    {% endif %}
+
+        <form method="get" style="margin-bottom: 1rem; display: flex; gap: 5px; align-items: center;">
+        <label for="category">Filtrer par catégorie :</label>
+        <select name="category" id="category" onchange="this.form.submit()">
+            <option value="">-- Toutes les catégories --</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if selectedCategoryId == category.id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <div style="display: flex"><p><strong>Votre nombre de points fidélités : </strong></p><p>300</p></div>
+    </form>
+
+    <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+        {% for product in products %}
+            <div class="product-card" style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px;">
+                <h4>{{ product.name }}</h4>
+                <div style="display: flex; justify-content: space-between">
+                    <p><em>{{ product.category.name }}</em></p>
+                    <p><em>20 euros</em></p>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun produit dans cette catégorie.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
