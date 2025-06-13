@@ -82,8 +82,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
-    #[ORM\Column]
-    private int $points = 200;
+    #[ORM\Column(nullable: false)]
+    private ?int $points = 200;
 
     public function __construct()
     {

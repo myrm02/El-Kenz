@@ -19,11 +19,6 @@ final readonly class CreateUserListener
             return;
         }
 
-        $entity->setRoles(["ROLE_USER"]);
-        $entity->setIsVerified(false);
-        $entity->setIsActive(false);
-        $entity->setPoints(0);
-
         // Définir la date de création si elle n’est pas déjà définie
         if ($entity->getCreatedAt() === null) {
             $entity->setCreatedAt(new \DateTime());

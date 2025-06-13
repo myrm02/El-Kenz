@@ -98,12 +98,4 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_register');
     }
-
-    #[Route('/admin/home', name: 'admin_home')]
-    public function adminHome(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        return $this->render('admin/dashboard.html.twig');
-    }
 }
