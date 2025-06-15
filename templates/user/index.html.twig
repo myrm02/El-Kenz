@@ -20,7 +20,7 @@
                 </option>
             {% endfor %}
         </select>
-        <div style="display: flex"><p><strong>Votre nombre de points fidélités : </strong></p><p>300</p></div>
+        <div style="display: flex"><p><strong>Votre nombre de points fidélités : </strong></p><p>{{ app.user.points }}</p></div>
     </form>
 
     <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
@@ -30,6 +30,7 @@
                 <div style="display: flex; justify-content: space-between">
                     <p><em>{{ product.category }}</em></p>
                     <p><em>{{ product.price }}</em></p>
+                    <p><button class="btn btn-outline-primary" onclick="window.location.href='{{ path('app_product_detail', { id: product.id }) }}'">En savoir plus</button></p>
                 </div>
             </div>
         {% else %}
