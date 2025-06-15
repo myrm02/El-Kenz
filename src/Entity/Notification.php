@@ -4,6 +4,19 @@ namespace App\Entity;
 
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+#[ORM\Entity(repositoryClass: NotificationRepository::class)]
+#[ApiResource(operations: [
+    new GetCollection(),
+    new Get(),
+    new Post(),
+])]
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 class Notification
@@ -31,12 +44,12 @@ class Notification
         return $this->id;
     }
 
-    public function getAccount(): ?user
+    public function getAccount(): ?User
     {
         return $this->account;
     }
 
-    public function setAccount(?user $account): static
+    public function setAccount(?User $account): static
     {
         $this->account = $account;
 

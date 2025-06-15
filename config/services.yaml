@@ -16,5 +16,15 @@ services:
     App\:
         resource: '../src/'
 
+    App\EventListener\CreateListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+    App\EventListener\UpdateListener:
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+    App\EventListener\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

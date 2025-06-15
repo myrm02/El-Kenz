@@ -11,24 +11,26 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
-// use ApiPlatform\Metadata\ApiResource;
-// use ApiPlatform\Metadata\Get;
-// use ApiPlatform\Metadata\Post;
-// use ApiPlatform\Metadata\Put;
-// use ApiPlatform\Metadata\Delete;
-
-// #[ORM\Entity(repositoryClass: UserRepository::class)]
-// #[ApiResource(operations: [
-//     new Get(),
-//     new Post(),
-//     new Put(),
-//     new Delete(),
-// ])]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource(operations: [
+    new GetCollection(),
+    new Get(),
+    new Post(),
+    new Put(),
+    new Delete(),
+])]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {

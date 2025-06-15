@@ -4,6 +4,27 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ApiResource(operations: [
+    new GetCollection(
+        security: "is_granted('ROLE_ADMIN')",
+        securityMessage: 'Only admins and users can view the product collection.'
+    ),
+    new Get(
+        security: "is_granted('ROLE_ADMIN')",
+        securityMessage: 'Only admins and users can view the product collection.'
+    ),
+    new Post(),
+    new Put(),
+    new Delete(),
+])]
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product

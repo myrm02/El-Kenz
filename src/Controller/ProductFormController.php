@@ -10,12 +10,18 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Form\ProductForm;
+use GenerateNotification;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ProductFormController extends AbstractController
 {
+    // public function __construct(private GenerateNotification $generateNotification)
+    // {
+       
+    // }
+    
     #[Route('/create/product', name: 'app_product_form')]
     public function index(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
@@ -51,6 +57,8 @@ final class ProductFormController extends AbstractController
             $entityManager->persist($product);
             $entityManager->persist($user);
             $entityManager->flush();
+            
+            // $this->generateNotification->generate($user, 'Product created: %s at %s' .$product->getName() .(new \DateTime())->format('Y-m-d H:i:s'));
 
             return $this->redirectToRoute('app_admin');
         }
@@ -108,6 +116,8 @@ final class ProductFormController extends AbstractController
             $entityManager->persist($product);
             $entityManager->flush();
 
+            // $this->generateNotification->generate($user, 'Product edited: %s at %s' .$product->getName() .(new \DateTime())->format('Y-m-d H:i:s'));
+
             return $this->redirectToRoute('app_admin');
         }
 
@@ -155,6 +165,8 @@ final class ProductFormController extends AbstractController
                         if (!$loggedUser) {
             throw $this->createAccessDeniedException('You must be logged in to delete a product.');
         }
+
+        // $this->generateNotification->generate($user, 'Product deleted: %s at %s' .$product->getName() .(new \DateTime())->format('Y-m-d H:i:s'));
 
                         $entityManager->remove($product);
                         $entityManager->flush();

@@ -10,9 +10,15 @@ use App\Form\UserProfilForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use GenerateNotification;
 
 final class UserProfilFormController extends AbstractController
 {
+    // public function __construct(private GenerateNotification $generateNotification)
+    // {
+       
+    // }
+
     #[Route('/profil', name: 'app_user_profil')]
     public function index(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
@@ -30,6 +36,8 @@ final class UserProfilFormController extends AbstractController
         $form = $this->createForm(UserProfilForm::class, $user);
         $form->handleRequest($request);
 
+        $admins = $entityManager->getRepository(User::class)->findBy(['roles' => 'ROLE_ADMIN']);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             // User infos
@@ -40,8 +48,13 @@ final class UserProfilFormController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user');
-        }
+        //     for ($x = 0; $x <= count($admins); $x++) {
+
+        //     foreach ($admins as $admin) {
+        //         $this->generateNotification->generate($admin, 'Profile updated: %s (firstname) and %s (lastname) at %s' .$user->getFirstname() .$user->getLastname().(new \DateTime())->format('Y-m-d H:i:s'));
+        //     }
+        // }
+    }
 
         // Optionally, pass these to the template
         return $this->render('user/profil.html.twig', [

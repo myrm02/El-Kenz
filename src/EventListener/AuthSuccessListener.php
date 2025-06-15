@@ -20,7 +20,7 @@ final class AuthSuccessListener
 
        $user = $authToken->getUser();
 
-       echo "User {$user->getFirstname()} has successfully logged in at " . date('Y-m-d H:i:s') . " avec ce statut de vérification {$user->isVerified()} "."\n";
+       print("User {$user->getFirstname()} has successfully logged in at " . date('Y-m-d H:i:s') . " avec ce statut de vérification {$user->isVerified()} "."\n");
 
     }
 }

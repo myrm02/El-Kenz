@@ -41,15 +41,30 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Utilisateur 1</td>
-                    <td>100</td>
+            {% for user in users %}
+                    <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.points }}</td>
                     <td>
-                        <button class="btn btn-primary btn-sm">Attribuer des points</button>
-                        <button class="btn btn-primary btn-sm">Désactiver l'utilisateur</button>
-                        <button class="btn btn-primary btn-sm">Passation en amdin</button>
+                        <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('app_add_points', { id: user.id }) }}'">Attribuer 1000 points</button>
+                        {% if user.isActive is 1 %}
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('app_desactivate_user', { id: user.id }) }}'">Désactiver l'utilisateur</button>
+                        {% else %}
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('app_activate_user', { id: user.id }) }}'">Activer l'utilisateur</button>
+                        {% endif %}
+                        {% if "ROLE_ADMIN" in user.roles %}
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('app_retro_status', { id: user.id }) }}'">Retirer les droits admin</button>
+                        {% else %}
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('app_admin_status', { id: user.id }) }}'">Passation en admin</button>
+                        {% endif %}
                     </td>
                 </tr>
+                {% endfor %}
+                {% if users|length == 0 or users is null %}
+                    <tr>
+                        <td colspan="3" class="text-center">Aucun utilisateur enregistré pour le moment.</td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
