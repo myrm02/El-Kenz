@@ -13,11 +13,11 @@
             </div>
         {% endif %}
 
-        {% if app.success != "" %}
+        {# {% if success %}
             <div class="mb-3">
-                {{ app.success }}
+                {{ success|e }}
             </div>
-        {% endif %}
+        {% endif %} #}
 
         {# templates/your_page.html.twig #}
 
@@ -57,25 +57,36 @@
     <div id="tab2" class="tab-content" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h3>Gestion des produits</h3>
-            <button class="btn btn-success mb-3">Ajouter un produit</button>
+            <a class="btn btn-success mb-3" href="{{ path('app_product_form') }}">Ajouter un produit</a>
         </div>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Utilisateur</th>
-                    <th>Points</th>
-                    <th>Action</th>
+                    <th>Nom du produit</th>
+                    <th>Prix</th>
+                    <th>Catégorie</th>
+                    <th>Description</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Utilisateur 1</td>
-                    <td>100</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm">Modifier</button>
-                        <button class="btn btn-primary btn-sm">Supprimer</button>
-                    </td>
-                </tr>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price }} €</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('app_product_edit', { id: product.id }) }}'">Modifier</button>
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('app_product_delete', { id: product.id }) }}'">Supprimer</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if products|length == 0 or products is null %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucun produit créé pour le moment.</td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
@@ -119,8 +130,8 @@
 
     <ul id="productList">
         {% for product in products %}
-            <li class="product-item" data-category="{{ product.category.id }}">
-                <strong>{{ product.name }}</strong> — {{ product.category.name }}
+            <li class="product-item">
+                <strong>{{ product.name }}</strong> — {{ product.category }}
             </li>
         {% endfor %}
     </ul>

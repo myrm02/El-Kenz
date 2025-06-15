@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -27,22 +25,14 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    /**
-     * @var Collection<int, user>
-     */
-    #[ORM\ManyToMany(targetEntity: user::class, inversedBy: 'products')]
-    private Collection $account;
-
     #[ORM\Column]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
     private ?\DateTime $updatedAt = null;
 
-    public function __construct()
-    {
-        $this->account = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'product')]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -97,30 +87,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, user>
-     */
-    public function getAccount(): Collection
-    {
-        return $this->account;
-    }
-
-    public function addAccount(user $account): static
-    {
-        if (!$this->account->contains($account)) {
-            $this->account->add($account);
-        }
-
-        return $this;
-    }
-
-    public function removeAccount(user $account): static
-    {
-        $this->account->removeElement($account);
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
@@ -141,6 +107,18 @@ class Product
     public function setUpdatedAt(\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

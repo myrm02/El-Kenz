@@ -12,6 +12,63 @@
         {% endblock %}
     </head>
     <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+    
+        <a class="navbar-brand d-flex align-items-center" href="{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                     {{ path('app_admin') }}
+                 {% elseif app.user %}
+                     {{ path('app_user') }}
+                 {% else %}
+                     {{ path('app_user') }}
+                 {% endif %}">
+            <img src="https://placekitten.com/50/50" alt="Logo" class="rounded-circle me-2" width="40" height="40">
+            <strong>{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                    El Kenz Admin
+                {% else %}
+                    Ma Boutique
+                {% endif %}</strong>
+        </a>
+
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://img.icons8.com/windows/32/user-male-circle.png" alt="Avatar" class="rounded-circle me-2" width="32" height="32">
+                            {{ app.user.userIdentifier ?? app.user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{{ path('app_user_profil') }}">Mon profil</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="{{ path('app_login') }}">
+                            <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Login icon" class="me-1" width="20">
+                            Se connecter
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
         {% block body %}{% endblock %}
+        <style>
+            .navbar {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+}
+.navbar-brand img {
+    height: 40px;
+}
+.nav .nav-link {
+    color: #333;
+    margin-left: 15px;
+}
+        </style>
     </body>
 </html>

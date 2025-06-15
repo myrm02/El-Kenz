@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,25 +13,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
-    public function index(Request $request, AuthenticationUtils $authenticationUtils, ?string $lastUsername): Response
+    public function index(Request $request, AuthenticationUtils $authenticationUtils, ?string $lastUsername, EntityManagerInterface $entityManager): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        $categories = [
-        (object)[ 'id' => 1, 'name' => 'Électronique' ],
-        (object)[ 'id' => 2, 'name' => 'Livres' ],
-        (object)[ 'id' => 3, 'name' => 'Vêtements' ],
-        ];
+        $categories = [];
 
-        $products = [
-        (object)[ 'name' => 'Smartphone Samsung', 'category' => $categories[0] ],
-        (object)[ 'name' => 'Casque Bluetooth', 'category' => $categories[0] ],
-        (object)[ 'name' => 'Le Seigneur des Anneaux', 'category' => $categories[1] ],
-        (object)[ 'name' => 'Guide Symfony', 'category' => $categories[1] ],
-        (object)[ 'name' => 'T-shirt noir', 'category' => $categories[2] ],
-        (object)[ 'name' => 'Veste en jean', 'category' => $categories[2] ],
-        ];    
+        $products = $entityManager->getRepository(Product::class)->findAll();
+        if (!$products) {
+            $products = []; // Aucun produit trouvé
+        }
 
         $selectedCategoryId = $request->query->getInt('category');
 

@@ -28,8 +28,8 @@
             <div class="product-card" style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px;">
                 <h4>{{ product.name }}</h4>
                 <div style="display: flex; justify-content: space-between">
-                    <p><em>{{ product.category.name }}</em></p>
-                    <p><em>20 euros</em></p>
+                    <p><em>{{ product.category }}</em></p>
+                    <p><em>{{ product.price }}</em></p>
                 </div>
             </div>
         {% else %}

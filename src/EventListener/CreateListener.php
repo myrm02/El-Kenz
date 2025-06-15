@@ -7,11 +7,11 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(event: Events::postUpdate, method: 'postUpdate')]
-final readonly class CreateUserListener
+#[AsEventListener(event: Events::postPersist, method: 'postPersist')]
+final readonly class CreateListener
 {
 
-    public function prePersist(LifecycleEventArgs $args): void
+    public function postPersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 
